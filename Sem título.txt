@@ -1,0 +1,56 @@
+
+
+CREATE TABLE `autor` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `emprestimo` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `livro_id` int NOT NULL,
+  `membro_id` int NOT NULL,
+  `data_emprestimo` date NOT NULL,
+  `data_devolucao` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `membro_id` (`membro_id`),
+  KEY `fk_livro_id` (`livro_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `genero` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `genero` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `livro` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `titulo` text NOT NULL,
+  `autor_id` int DEFAULT NULL,
+  `ano_publicacao` int DEFAULT NULL,
+  `genero_id` int DEFAULT NULL,
+  `disponivel` int DEFAULT '1',
+  `url_da_capa` varchar(255) DEFAULT NULL,
+  `sinopse` text,
+  PRIMARY KEY (`id`),
+  KEY `autor_id` (`autor_id`),
+  KEY `genero_id` (`genero_id`),
+  CONSTRAINT `livro_ibfk_1` FOREIGN KEY (`autor_id`) REFERENCES `autor` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `livro_ibfk_2` FOREIGN KEY (`genero_id`) REFERENCES `genero` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `membro` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` text NOT NULL,
+  `email` text,
+  `telefone` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
