@@ -1,29 +1,28 @@
-# Usar uma imagem base com Python
-FROM python:3.12-slim
+# Usando a imagem base do Python
+FROM python:3.12
 
-# Instalar dependências necessárias para o MySQL
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    default-libmysqlclient-dev \
-    && rm -rf /var/lib/apt/lists/*
+# Instalando o cliente MySQL
+RUN apt-get update && \
+    apt-get install -y default-mysql-client && \
+    rm -rf /var/lib/apt/lists/* && \
+    mkdir /app
 
-# Definir o diretório de trabalho no container
+# Definindo o diretório de trabalho
 WORKDIR /app
 
-# Copiar os arquivos de requirements para o diretório de trabalho
-COPY requirements.txt .
-
-# Instalar as dependências do Python
+# Copiando os arquivos de requisitos e instalando as dependências
+COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar o restante do código da aplicação para o diretório de trabalho
-COPY . .
+# Copiando o restante dos arquivos do aplicativo
+# COPY . .
 
-# Definir a variável de ambiente para o Flask
-ENV FLASK_APP=app
+# Definindo a variável de ambiente para o Flask
+ENV FLASK_APP=/app/app.py
 
-# Expôr a porta em que a aplicação irá rodar
+# Expondo a porta que o Flask vai usar
 EXPOSE 5000
 
-# Comando para rodar a aplicação
+# Comando para iniciar o aplicativo Flask
 CMD ["flask", "run", "--host=0.0.0.0"]
+ 
