@@ -1,19 +1,18 @@
 version: '3'
-
 services:
   web:
     build: .
     ports:
       - "5000:5000"
+    volumes:
+      - .:/app
     environment:
-      FLASK_ENV: development
-    depends_on:
-      - db
+      - FLASK_APP=app.py
+      - DATABASE_URL=mysql://root:140610@host.docker.internal:3306/sgb
+  # db:
+    # image: mysql:5.7
+    # environment:
+      # MYSQL_ROOT_PASSWORD: root
+      # MYSQL_DATABASE: mydatabase
 
-  db:
-    image: mysql:8.0
-    environment:
-      MYSQL_ROOT_PASSWORD: 140610
-      MYSQL_DATABASE: sgb
-    ports:
-      - "3306:3306"
+
